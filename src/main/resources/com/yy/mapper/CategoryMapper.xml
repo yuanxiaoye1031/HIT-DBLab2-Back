@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yy.mapper.CategoryMapper">
+    <select id="getDishCategoryList" resultType="com.yy.entity.Category">
+        select * from mylab2.category where is_deleted=0 and type=0
+    </select>
+
+    <select id="getCategoryWithNum" resultType="com.yy.dto.CategoryWithNum">
+        # 查询菜品数量不少于2的分类 以及它包含的菜品数
+        SELECT id,category_name,num FROM category c,(SELECT category_id,COUNT(*) num FROM dish
+                                                     GROUP BY category_id
+                                                     HAVING COUNT(*)>=2) a
+        WHERE c.id=a.category_id
+    </select>
+</mapper>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yy.mapper.SetmealMapper">
+    <select id="getSetMealList" resultType="com.yy.dto.SetmealDto">
+        select * from setmeal,mylab2.category where setmeal.category_id=category.id and setmeal.is_deleted=0
+    </select>
+
+    <select id="getDishListById" resultType="com.yy.dto.DishDto">
+        SELECT s.id setmeal_id,dish_id,dish_name,a.dish_price price,number,a.description
+        FROM setmeal s,(SELECT setmeal_id,dish_id,dish_name,sd.price dish_price,number,description
+                                    FROM setmeal_dish sd,dishWithCName d
+                                    WHERE sd.dish_id = d.id and setmeal_id=#{id}) a
+        WHERE s.id = a.setmeal_id
+    </select>
+</mapper>

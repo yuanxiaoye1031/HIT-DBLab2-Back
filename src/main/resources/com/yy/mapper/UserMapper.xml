@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yy.mapper.UserMapper">
+    <insert id="addUser" parameterType="com.yy.entity.User" useGeneratedKeys="true" keyProperty="id" >
+       insert into user (id,`name`, phone, `status`, sex, cardno)
+        values (#{id,jdbcType=INTEGER},#{name},#{phone},#{status},#{sex},#{cardno});
+    </insert>
+
+    <insert id="addAddress" parameterType="com.yy.entity.Address" useGeneratedKeys="true" keyProperty="id">
+        insert into address(id, user_id, phone, `name`, detail, is_deleted)
+        VALUES (#{id,jdbcType=INTEGER},#{user_id},#{phone},#{name},#{detail},#{is_deleted})
+    </insert>
+
+    <select id="getAll" resultType="com.yy.entity.User">
+        select * from user;
+    </select>
+
+    <select id="getByName" parameterType="string" resultType="com.yy.entity.User">
+        select * from user where user.name=#{name}
+    </select>
+
+    <select id="getByCardNo" parameterType="string" resultType="com.yy.entity.User">
+        select * from mylab2.user where cardno=#{cardno}
+    </select>
+
+    <select id="likeByName" parameterType="string" resultType="com.yy.entity.User">
+        select * from mylab2.user where name like CONCAT('%',#{name},'%')
+    </select>
+
+    <select id="getAddressListByUserId" parameterType="long" resultType="com.yy.entity.Address">
+        select * from address where user_id=#{user_id} and is_deleted = 0
+    </select>
+
+    <select id="getAddressList" resultType="com.yy.entity.Address">
+        select * from address where is_deleted=0
+    </select>
+
+    <select id="getById" resultType="com.yy.entity.User">
+        select * from user where id=#{id}
+    </select>
+
+</mapper>
